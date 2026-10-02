@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Little Brew</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 16%22%3E%3Cpath d=%22M2 5h10v5a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4z%22 fill=%22%23b76d49%22/%3E%3C/svg%3E" />
+    <link rel="stylesheet" href="/src/ui/styles.css" />
+  </head>
+  <body>
+    <div id="app">
+      <canvas id="scene" aria-label="Café view"></canvas>
+      <div id="world-overlay" aria-hidden="true"></div>
+
+      <header class="hud-top">
+        <section class="panel brand" aria-label="Day status">
+          <div class="brand-title">LITTLE BREW</div>
+          <div class="brand-row">
+            <span id="day-label">Day 1</span>
+            <span id="phase-label" class="phase phase-preparing">Before opening</span>
+          </div>
+          <div class="time-row">
+            <div class="time-track"><div id="time-fill" class="time-fill"></div></div>
+            <span id="time-label">3:00</span>
+          </div>
+        </section>
+        <section class="stats" aria-label="Café statistics">
+          <div class="chip chip-cash" title="Cash"><span id="cash">$40.00</span></div>
+          <div class="chip">Served <b id="served">0</b></div>
+          <div class="chip">Waiting <b id="waiting">0</b></div>
+        </section>
+      </header>
+
+      <aside id="plan-panel" class="panel plan" aria-label="Plan the day">
+        <h2>Plan the day</h2>
+        <div class="field">
+          <div class="field-label">Coffee price</div>
+          <div class="stepper">
+            <button id="price-down" class="btn icon" aria-label="Lower price">−</button>
+            <output id="price-value">$3.00</output>
+            <button id="price-up" class="btn icon" aria-label="Raise price">+</button>
+          </div>
+          <div id="price-hint" class="hint"></div>
+        </div>
+        <div class="upgrade" id="upgrade-card">
+          <div class="upgrade-head">
+            <div>
+              <div class="upgrade-name" id="upgrade-name">Upgrade</div>
+              <div class="hint" id="upgrade-effect"></div>
+            </div>
+            <span class="badge" id="upgrade-badge" hidden>Installed</span>
+          </div>
+          <div class="goal" id="goal">
+            <div class="goal-track"><div class="goal-fill" id="goal-fill"></div></div>
+            <div class="hint" id="goal-label"></div>
+          </div>
+          <button id="upgrade-btn" class="btn">Buy</button>
+        </div>
+        <div id="bankrupt-note" class="note-danger" hidden>
+          Not enough cash to buy coffee ingredients. Restart to try again.
+          <button id="bankrupt-restart" class="btn primary">Restart from day 1</button>
+        </div>
+        <button id="reset-btn" class="link-btn">Reset saved progress…</button>
+      </aside>
+
+      <footer class="panel toolbar" aria-label="Controls">
+        <button id="open-btn" class="btn primary wide">Open café</button>
+        <button id="pause-btn" class="btn" aria-pressed="false">Pause</button>
+        <div class="segmented" role="group" aria-label="Speed">
+          <button class="btn seg" data-speed="1" aria-pressed="true">1×</button>
+          <button class="btn seg" data-speed="2" aria-pressed="false">2×</button>
+          <button class="btn seg" data-speed="3" aria-pressed="false">3×</button>
+        </div>
+      </footer>
+
+      <div class="zoom-controls" aria-label="Zoom">
+        <button id="zoom-in" class="btn icon" aria-label="Zoom in">+</button>
+        <button id="zoom-out" class="btn icon" aria-label="Zoom out">−</button>
+      </div>
+
+      <div id="paused-banner" class="banner" hidden>Paused</div>
+
+      <div id="results" class="modal-backdrop" hidden>
+        <section class="panel modal" role="dialog" aria-modal="true" aria-labelledby="results-title">
+          <h2 id="results-title">Day 1 report</h2>
+          <p id="results-subtitle" class="hint"></p>
+          <dl class="report">
+            <dt>Revenue</dt><dd id="r-revenue"></dd>
+            <dt>Ingredient costs</dt><dd id="r-costs"></dd>
+            <dt class="strong">Profit</dt><dd id="r-profit" class="strong"></dd>
+            <dt>Customers served</dt><dd id="r-served"></dd>
+            <dt>Customers lost</dt><dd id="r-lost"></dd>
+            <dt>Drinks wasted</dt><dd id="r-wasted"></dd>
+            <dt>Took drink away (no seat)</dt><dd id="r-takeaway"></dd>
+            <dt class="strong">Cash</dt><dd id="r-cash" class="strong"></dd>
+          </dl>
+          <p id="results-tip" class="tip"></p>
+          <div class="modal-actions">
+            <button id="next-day-btn" class="btn primary wide">Start day 2</button>
+            <button id="restart-btn" class="btn primary wide" hidden>Restart from day 1</button>
+          </div>
+        </section>
+      </div>
+
+      <div id="toasts" class="toasts" aria-live="polite"></div>
+      <div id="loading" class="loading">Brewing…</div>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
